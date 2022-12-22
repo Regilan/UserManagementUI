@@ -1,4 +1,3 @@
- 
 <div id="content">
     <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
         <div>
@@ -34,11 +33,19 @@
         <div>
             <label>Status: </label>
         <select formControlName="status">
-            <option value="true">ACTIVE</option>
-            <option value="false">INACTIVE</option>
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
         </select>
         </div>
 
         <button type="submit">Create User</button>
     </form>
+</div>
+
+<div>
+    <label>Enter Email ID: </label>
+    <input name="email" type="email" value="email" [(ngModel)]="email"/>
+    <button (click)="getEmployeeByEmail(email)" type="submit">Fetch</button>
+    {{ employee?.firstName }}
+    <button (click)="inactivate(employee?.employeeId)" type="submit">Inactivate</button>
 </div>

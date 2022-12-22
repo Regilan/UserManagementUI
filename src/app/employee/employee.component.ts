@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Employee } from './model/Employee';
+import { EmployeeService } from './service/employee.service';
 
 @Component({
   selector: 'app-employee',
@@ -9,9 +11,12 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class EmployeeComponent implements OnInit {
 
   employeeForm!: FormGroup;
+  email!: string;
+  employee!: any;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private employeeService: EmployeeService
   ) { }
 
   ngOnInit(): void {
@@ -29,9 +34,21 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
+  public async getEmployeeByEmail(emailId: string) {
+    await this.employeeService.getEmployeeByEmail(emailId).subscribe(
+      val => {
+        this.employee = val.body;
+      }
+    );   
+  }
+
   onSubmit(): void {
-    console.log(this.employeeForm.value);
+    this.employeeService.createNewEmployee(this.employeeForm.value);
     this.clearForm();
+  }
+
+  inactivate(employeeId: number): void {
+    this.employeeService.inactivateEmployee(employeeId);
   }
 
 }
